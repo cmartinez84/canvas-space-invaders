@@ -2,6 +2,7 @@ var boardScore;
 var ball;
 var ping;
 var sparks = [];
+var ketchup;
 
 var scoresRef = firebase.database().ref('scores');
 function HighScore(person, finalScore){
@@ -24,11 +25,9 @@ var myArea = {
       myArea.x = e.clientX - (myArea.canvas.offsetLeft - window.pageXOffset);
       myArea.y = e.clientY -(myArea.canvas.offsetTop - window.pageYOffset);
     });
-    mySound = new Audio("sounds/ping.wav");
-
-    boardScore = new Component(10, 10, 300, 10, "text", null);
-
-
+    // mySound = new Audio("sounds/ping.wav");
+    ketchup = new Component(10, 10, 300, 10, "image", 'img/ketchup.png');
+    // boardScore = new Component(10, 10, 300, 10, "text"/, null);
   },
   clear : function(){
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -41,33 +40,41 @@ var myArea = {
 
 
 
-function Component (width, height, x, y, type, position){
+function Component (width, height, x, y, type, source){
   this.x = x;
   this.y = y;
   this.width = width;
   this.height = height;
   this.type = type;
-  this.position = position;
-  this.speedX = 1;
-  this.speedY = 2;
+  this.image = new Image();
+  this.image.src = source;
+  // this.speedX = 1;
+  // this.speedY = 2;
   ctx = myArea.context;
   ctx.fillStyle = "white";
   ctx.fillRect(this.x, this.y, this.width, this.height);
   this.update = function(){
     ctx = myArea.context;
     ctx.fillStyle = "white";
-    if(this.type === "ball"){
-      this.x += this.speedX;
-      this.y += this.speedY;
-      this.speedY += .001;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
+    if(this.type === "image"){
+      if(myArea.x <10){
+        ctx.drawImage(this.image, 10, 690);
+      }
+      else if (myArea.x > 754){
+        ctx.drawImage(this.image, 754, 690);
+
+      }
+      else{
+        ctx.drawImage(this.image, myArea.x, 690);
+      }
     }
-    else if (this.type === "text"){
-      ctx.fillStyle = "white";
-      ctx.font = "50px Arial";
-      ctx.fillText(myArea.frameNo, 600, 100);
-    }
-  },
+
+    // else if (this.type === "text"){
+    //   ctx.fillStyle = "white";
+    //   ctx.font = "50px Arial";
+    //   ctx.fillText(myArea.frameNo, 600, 100);
+    // }
+  }
   //reserve for bullets?
   // this.crashWith = function(otherObj){
   //   var myLeft = this.x;
@@ -106,8 +113,7 @@ function Spark (x, y, width, height, speedX, speedY){
 function updateMyArea(){
   myArea.frameNo ++;
   myArea.clear();
-  boardScore.update();
-  
+  ketchup.update();
 
   if(sparks.length >0){
     sparks.forEach(function(spark){
@@ -115,6 +121,7 @@ function updateMyArea(){
     });
   }
 }
+
 var playAgain = function(){
     $("#playAgain").hide();
     myArea.frameNo = 0;
@@ -155,4 +162,4 @@ var drawSparks = function(x, y, speedX, speedY){
 
 
 myArea.start();
-drawHighScores();
+// drawHighScores();
