@@ -1,0 +1,27 @@
+canvas{
+  border: 1px  solid #d3d3d3;
+  background-color: black;
+
+}
+body{
+  text-align: center;
+}
+#highScores{
+  text-align: left;
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    z-index: -999;
+    font-size: 30px;
+}
+
+#playAgain{
+  display: none;
+  width: 820px;
+  height: 820px;
+  color: black;
+  position: fixed;;
+  font-size: 4em;
+  top: 0;
+  float: right;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="css/mystyles.css" type="text/css">
+    <script src="js/jquery-3.1.0.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <title></title>
+  </head>
+  <body>
+    <button type="button" name="button" id="playAgain" onclick="playAgain()">PLAY AGAIN?</button>
+
+    <div>
+      <ol id="highScores">
+
+      </ol>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBqeTZ8Kaw1VhhZYv7fCpjuXYApu1Bwuc8",
+        authDomain: "pong-cae92.firebaseapp.com",
+        databaseURL: "https://pong-cae92.firebaseio.com",
+        storageBucket: "pong-cae92.appspot.com",
+        messagingSenderId: "572126860641"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script src="js/scripts.js" type="text/javascript"></script>
+
+
+  </body>
+</html>
