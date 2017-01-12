@@ -32,8 +32,9 @@ var myArea = {
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
     ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
-    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 0, 0 , 146 , 100, 146, 146, 100));
-    invaders.push (new Component(10, 10, 290, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 83, 86));
+    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 112, 83));
+    invaders.push (new Component(10, 10, 150, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 83, 86));
+    invaders.push (new Component(10, 10, 300, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 80, 82));
     // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
   clear : function(){
@@ -54,9 +55,14 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   this.image = new Image();
   this.image.src = source;
   this.rotateCounter = 0;
+  this.rotateCounter2 = 4;
   this.soffset = soffset;
   this.dwidth = dwidth;
   this.dheight = dheight;
+  // this.speedXpos = 1;
+  // this.speedXneg = -1;
+  this.speedX = 0;
+  this.speedY = 0;
   ctx = myArea.context;
   if(this.type === "invader"){
     this.sxRef = sx;
@@ -67,39 +73,59 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
     this.sheight = sheight;
   }
   this.update = function(){
-    if(myArea.frameNo % 40 === 0 ){this.rotateCounter ++;}
-
+    if(myArea.frameNo % 40 === 0){
+      this.newPos();
+      this.rotateCounter ++;
+    }
     ctx = myArea.context;
-    ctx.fillStyle = "white";
     if(this.type === "ketchup"){
       if(myArea.x <10){
         ctx.drawImage(this.image, 10, 690);
       }
       else if (myArea.x > 754){
         ctx.drawImage(this.image, 754, 690);
-
       }
       else{
         ctx.drawImage(this.image, myArea.x, 690);
       }
     }
     else if (this.type === "invader"){
-      // image sx sy swidth sheight cx cy (resize as) width height
-      if(this.rotateCounter % 2 ===0){
+      if(this.rotateCounter % 2 === 0){
         this.sxRef = this.sx2;
       }
       else{
         this.sxRef = this.sx;
       }
+      this.cx +=this.speedX;
+      this.cy +=this.speedY;
       ctx.drawImage(this.image, this.sxRef, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
+    }
+  },
+  this.newPos = function(){
+    if(this.rotateCounter2  === 4){
+      this.speedX = 0;
+      this.speedY =.3;
+      this.rotateCounter2 --;
+    }
+    else if(this.rotateCounter2 === 3){
+      this.speedX = .3;
+      this.speedY =0;
+      this.rotateCounter2 --;
 
     }
+    else if( this.rotateCounter2  === 2){
+      this.speedX = 0;
+      this.speedY = .3;
+      this.rotateCounter2 --;
 
-    // else if (this.type === "text"){
-    //   ctx.fillStyle = "white";
-    //   ctx.font = "50px Arial";
-    //   ctx.fillText(myArea.frameNo, 600, 100);
-    // }
+    }
+    else{
+      this.speedX = -.3;
+      this.speedY = 0;
+      this.rotateCounter2 = 4;
+    }
+    console.log(this.rotateCounter2
+    );
   }
   //reserve for bullets?
   // this.crashWith = function(otherObj){
