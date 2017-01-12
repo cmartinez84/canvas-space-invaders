@@ -129,21 +129,8 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
       this.speedY = 0;
       this.rotateCounter2 = 4;
     }
-    console.log(this.rotateCounter2
-    );
   }
-  //reserve for bullets?
-  // this.crashWith = function(otherObj){
-  //   var myLeft = this.x;
-  //   var myRight = this.x + this.width;
-  //   var myTop = this.y;
-  //   var myBottom = this.y + this.height;
-  //   var otherLeft = otherObj.x;
-  //   var otherRight = otherObj.x + otherObj.width;
-  //   var otherTop = otherObj.y;
-  //   var otherBottom = otherObj.y + otherObj.height;
-  //   var position = otherObj.position;
-  // }
+
 }
 //reserve for sparks when collision
 function Spark (x, y, width, height, speedX, speedY){
@@ -172,11 +159,24 @@ function Bullet (cx, cy){
   this.image = new Image();
   this.image.src = "img/invaders.gif";
   // this.speedX = speedX;
-  this.speedY = -6;
+  this.speedY = -10;
   ctx = myArea.context;
   this.update = function(){
     this.cy += this.speedY;
+    //  reference :     ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
     ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, 36, 60);
+  },
+  this.crashWith = function(otherObj){
+    var myLeft = this.cx;
+    var myRight = this.cx + 36;
+    var myTop = this.cy;
+    var otherLeft = otherObj.cx;
+    var otherRight = otherObj.cx + otherObj.swidth;
+    var otherBottom = otherObj.cy + otherObj.sheight;
+    if( myLeft > otherRight && myRight < otherLeft){
+      console.log("hit");
+    }
+    // console.log(myRight + "  " + otherLeft + " " +myLeft + " " +otherRight);
   }
 }
 
@@ -194,6 +194,9 @@ function updateMyArea(){
   }
   if(bullets.length > 0){
     bullets.forEach(function(bullet){
+      invaders.forEach(function(invader){
+        bullet.crashWith(invader);
+      });
       bullet.update();
     });
   }
@@ -239,7 +242,7 @@ var drawSparks = function(x, y, speedX, speedY){
 // function Bullet (x, y, width, height){
 
 function fire(){
-  bullets.push( new Bullet(myArea.x, 690));
+  bullets.push(new Bullet(myArea.x, 690));
 }
 
 myArea.start();
