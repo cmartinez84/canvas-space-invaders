@@ -3,6 +3,7 @@ var ball;
 var ping;
 var sparks = [];
 var ketchup;
+var invaders = [];
 
 var scoresRef = firebase.database().ref('scores');
 function HighScore(person, finalScore){
@@ -26,7 +27,8 @@ var myArea = {
       myArea.y = e.clientY -(myArea.canvas.offsetTop - window.pageYOffset);
     });
     // mySound = new Audio("sounds/ping.wav");
-    ketchup = new Component(10, 10, 300, 10, "image", 'img/ketchup.png');
+    ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
+    invaders.push (new Component(10, 10, 300, 10, "invader", 'img/invaders.gif'));
     // boardScore = new Component(10, 10, 300, 10, "text"/, null);
   },
   clear : function(){
@@ -36,8 +38,6 @@ var myArea = {
     clearInterval(this.interval);
   }
 }
-
-
 
 
 function Component (width, height, x, y, type, source){
@@ -51,12 +51,12 @@ function Component (width, height, x, y, type, source){
   // this.speedX = 1;
   // this.speedY = 2;
   ctx = myArea.context;
-  ctx.fillStyle = "white";
-  ctx.fillRect(this.x, this.y, this.width, this.height);
+  // ctx.fillStyle = "white";
+  // ctx.fillRect(this.x, this.y, this.width, this.height);
   this.update = function(){
     ctx = myArea.context;
     ctx.fillStyle = "white";
-    if(this.type === "image"){
+    if(this.type === "ketchup"){
       if(myArea.x <10){
         ctx.drawImage(this.image, 10, 690);
       }
@@ -67,6 +67,10 @@ function Component (width, height, x, y, type, source){
       else{
         ctx.drawImage(this.image, myArea.x, 690);
       }
+    }
+    else if (this.type === "invader"){
+      // image sx sy swidth sheight cx cy (resize as) width height
+      ctx.drawImage(this.image, 0, 0, 146, 100, 0, 0, 146, 100);
     }
 
     // else if (this.type === "text"){
@@ -114,6 +118,9 @@ function updateMyArea(){
   myArea.frameNo ++;
   myArea.clear();
   ketchup.update();
+  invaders.forEach(function(invader){
+    invader.update();
+  })
 
   if(sparks.length >0){
     sparks.forEach(function(spark){
