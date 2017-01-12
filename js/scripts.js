@@ -4,6 +4,9 @@ var ping;
 var sparks = [];
 var ketchup;
 var invaders = [];
+var bullets = [];
+var randos = [];
+
 
 var scoresRef = firebase.database().ref('scores');
 function HighScore(person, finalScore){
@@ -26,8 +29,10 @@ var myArea = {
       myArea.x = e.clientX - (myArea.canvas.offsetLeft - window.pageXOffset);
       myArea.y = e.clientY -(myArea.canvas.offsetTop - window.pageYOffset);
     });
+    this.canvas.onmousedown = function(){
+      fire();
+    }
     // mySound = new Audio("sounds/ping.wav");
-
     // my compnent constructor syntax
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
@@ -161,6 +166,19 @@ function Spark (x, y, width, height, speedX, speedY){
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }
+function Bullet (cx, cy){
+  this.cx = cx;
+  this.cy = cy;
+  this.image = new Image();
+  this.image.src = "img/invaders.gif";
+  // this.speedX = speedX;
+  this.speedY = -6;
+  ctx = myArea.context;
+  this.update = function(){
+    this.cy += this.speedY;
+    ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, 36, 60);
+  }
+}
 
 function updateMyArea(){
   myArea.frameNo ++;
@@ -169,10 +187,14 @@ function updateMyArea(){
   invaders.forEach(function(invader){
     invader.update();
   })
-
   if(sparks.length >0){
     sparks.forEach(function(spark){
       spark.update();
+    });
+  }
+  if(bullets.length > 0){
+    bullets.forEach(function(bullet){
+      bullet.update();
     });
   }
 }
@@ -191,7 +213,6 @@ var drawHighScores = function(){
         });
     });
 }
-var randos = [];
 
 var drawSparks = function(x, y, speedX, speedY){
   // if(speedY > 0){ speedY * 3};
@@ -215,6 +236,11 @@ var drawSparks = function(x, y, speedX, speedY){
 }
 
 
+// function Bullet (x, y, width, height){
+
+function fire(){
+  bullets.push( new Bullet(myArea.x, 690));
+}
 
 myArea.start();
 // drawHighScores();
