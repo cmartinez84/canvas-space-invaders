@@ -32,8 +32,8 @@ var myArea = {
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
     ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
-    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 0, 0 , 146 , 100, 246, 146, 100));
-    // invaders.push (new Component(10, 10, 130, 10, "invader", 'img/invaders.gif', 311, 11 , 83 , 86, 116));
+    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 0, 0 , 146 , 100, 146, 146, 100));
+    invaders.push (new Component(10, 10, 290, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 83, 86));
     // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
   clear : function(){
@@ -61,7 +61,7 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   if(this.type === "invader"){
     this.sxRef = sx;
     this.sx = sx;
-    this.sx2 = sx +146;
+    this.sx2 = sx +soffset;
     this.sy = sy;
     this.swidth = swidth;
     this.sheight = sheight;
