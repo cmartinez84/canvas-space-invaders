@@ -27,8 +27,12 @@ var myArea = {
       myArea.y = e.clientY -(myArea.canvas.offsetTop - window.pageYOffset);
     });
     // mySound = new Audio("sounds/ping.wav");
+
+    // my compnent constructor syntax
+    // (width, height, cx, cy, type, source, sx, sy, swidth, sheight){
+
     ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
-    invaders.push (new Component(10, 10, 300, 10, "invader", 'img/invaders.gif'));
+    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 0, 0 , 146 , 100));
     // boardScore = new Component(10, 10, 300, 10, "text"/, null);
   },
   clear : function(){
@@ -40,19 +44,22 @@ var myArea = {
 }
 
 
-function Component (width, height, x, y, type, source){
-  this.x = x;
-  this.y = y;
+function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight){
+  this.cx = cx;
+  this.cy = cy;
   this.width = width;
   this.height = height;
   this.type = type;
   this.image = new Image();
   this.image.src = source;
-  // this.speedX = 1;
-  // this.speedY = 2;
   ctx = myArea.context;
-  // ctx.fillStyle = "white";
-  // ctx.fillRect(this.x, this.y, this.width, this.height);
+  if(this.type === "invader"){
+    this.sx = sx;
+    this.sy = sy;
+    this.swidth = swidth;
+    this.sheight = sheight;
+    console.log(this.width, this.height, this.cx, this.cy,  this.type, this.sx, this.sy, this.swidth, this.sheight);
+  }
   this.update = function(){
     ctx = myArea.context;
     ctx.fillStyle = "white";
@@ -70,7 +77,8 @@ function Component (width, height, x, y, type, source){
     }
     else if (this.type === "invader"){
       // image sx sy swidth sheight cx cy (resize as) width height
-      ctx.drawImage(this.image, 0, 0, 146, 100, 0, 0, 146, 100);
+      ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, 146, 100);
+      // ctx.drawImage(this.image, 100, 100, 100, 100, this.cx, this.cy, 146, 100);
     }
 
     // else if (this.type === "text"){
