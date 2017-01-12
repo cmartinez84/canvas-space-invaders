@@ -29,11 +29,11 @@ var myArea = {
     // mySound = new Audio("sounds/ping.wav");
 
     // my compnent constructor syntax
-    // (width, height, cx, cy, type, source, sx, sy, swidth, sheight){
+    // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
     ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
-    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 0, 0 , 146 , 100));
-    // invaders.push (new Component(10, 10, 130, 10, "invader", 'img/invaders.gif', 146, 0 , 146 , 100));
+    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 0, 0 , 146 , 100, 246, 146, 100));
+    // invaders.push (new Component(10, 10, 130, 10, "invader", 'img/invaders.gif', 311, 11 , 83 , 86, 116));
     // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
   clear : function(){
@@ -45,7 +45,7 @@ var myArea = {
 }
 
 
-function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight){
+function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
   this.cx = cx;
   this.cy = cy;
   this.width = width;
@@ -54,6 +54,9 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   this.image = new Image();
   this.image.src = source;
   this.rotateCounter = 0;
+  this.soffset = soffset;
+  this.dwidth = dwidth;
+  this.dheight = dheight;
   ctx = myArea.context;
   if(this.type === "invader"){
     this.sxRef = sx;
@@ -84,13 +87,11 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
       // image sx sy swidth sheight cx cy (resize as) width height
       if(this.rotateCounter % 2 ===0){
         this.sxRef = this.sx2;
-        console.log(this.sx);
       }
       else{
         this.sxRef = this.sx;
-        console.log("bye");
       }
-      ctx.drawImage(this.image, this.sxRef, this.sy, this.swidth, this.sheight, this.cx, this.cy, 146, 100);
+      ctx.drawImage(this.image, this.sxRef, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
 
     }
 
