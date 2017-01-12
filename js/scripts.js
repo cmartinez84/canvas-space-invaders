@@ -33,7 +33,8 @@ var myArea = {
 
     ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
     invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 0, 0 , 146 , 100));
-    // boardScore = new Component(10, 10, 300, 10, "text"/, null);
+    // invaders.push (new Component(10, 10, 130, 10, "invader", 'img/invaders.gif', 146, 0 , 146 , 100));
+    // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
   clear : function(){
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -52,15 +53,19 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   this.type = type;
   this.image = new Image();
   this.image.src = source;
+  this.rotateCounter = 0;
   ctx = myArea.context;
   if(this.type === "invader"){
+    this.sxRef = sx;
     this.sx = sx;
+    this.sx2 = sx +146;
     this.sy = sy;
     this.swidth = swidth;
     this.sheight = sheight;
-    console.log(this.width, this.height, this.cx, this.cy,  this.type, this.sx, this.sy, this.swidth, this.sheight);
   }
   this.update = function(){
+    if(myArea.frameNo % 40 === 0 ){this.rotateCounter ++;}
+
     ctx = myArea.context;
     ctx.fillStyle = "white";
     if(this.type === "ketchup"){
@@ -77,8 +82,16 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
     }
     else if (this.type === "invader"){
       // image sx sy swidth sheight cx cy (resize as) width height
-      ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, 146, 100);
-      // ctx.drawImage(this.image, 100, 100, 100, 100, this.cx, this.cy, 146, 100);
+      if(this.rotateCounter % 2 ===0){
+        this.sxRef = this.sx2;
+        console.log(this.sx);
+      }
+      else{
+        this.sxRef = this.sx;
+        console.log("bye");
+      }
+      ctx.drawImage(this.image, this.sxRef, this.sy, this.swidth, this.sheight, this.cx, this.cy, 146, 100);
+
     }
 
     // else if (this.type === "text"){
