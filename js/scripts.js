@@ -37,8 +37,8 @@ var myArea = {
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
     ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
-    // invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 112, 83));
-    // invaders.push (new Component(10, 10, 150, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 83, 86));
+    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 112, 83));
+    invaders.push (new Component(10, 10, 150, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 83, 86));
     invaders.push (new Component(10, 10, 300, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 80, 82));
     // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
@@ -174,9 +174,10 @@ function Bullet (cx, cy){
     var otherRight = otherObj.cx + otherObj.swidth;
     var otherBottom = otherObj.cy + otherObj.sheight;
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom) {
-      // bullets
-      // this.remove();
-      bullets = [];
+      var invaderIndex = invaders.indexOf(otherObj);
+      var bulletIndex = bullets.indexOf(this);
+      invaders.splice(invaderIndex, 1);
+      bullets.splice(invaderIndex, 1);
     }
   }
 }
