@@ -31,7 +31,8 @@ var myArea = {
     });
     this.canvas.onmousedown = function(){
       fire();
-    }
+    };
+
     // mySound = new Audio("sounds/ping.wav");
     // my compnent constructor syntax
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
@@ -176,8 +177,15 @@ function Bullet (cx, cy){
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom) {
       var invaderIndex = invaders.indexOf(otherObj);
       var bulletIndex = bullets.indexOf(this);
-      invaders.splice(invaderIndex, 1);
       bullets.splice(invaderIndex, 1);
+      otherObj.sx = 356;
+      otherObj.sx2 = 356;
+      otherObj.sy = 626;
+      otherObj.swidth = 100;
+      otherObj.sheight = 77;
+      setTimeout(function(){
+        invaders.splice(invaderIndex, 1);
+      }, 300);
     }
   }
 }
