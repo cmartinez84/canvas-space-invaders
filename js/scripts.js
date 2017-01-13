@@ -7,7 +7,6 @@ var invaders = [];
 var bullets = [];
 var randos = [];
 
-
 var scoresRef = firebase.database().ref('scores');
 function HighScore(person, finalScore){
   this.person = person;
@@ -134,26 +133,6 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
 
 }
 //reserve for sparks when collision
-function Spark (x, y, width, height, speedX, speedY){
-  this.width = width;
-  this.height = height;
-  this.x = x;
-  this.y = y;
-  this.speedX = speedX;
-  this.speedY = speedY;
-  this.gravity = 0.4;
-  this.gravitySpeed =0;
-  ctx = myArea.context;
-  // ctx.fillStyle = "green";
-  ctx.fillRect(this.x, this.y, this.width, this.height);
-  this.update = function(){
-    this.gravitySpeed += this.gravity;
-    this.x += this.speedX;
-    this.y += this.speedY + this.gravitySpeed;
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
-}
 function Bullet (cx, cy){
   this.cx = cx;
   this.cy = cy;
@@ -171,10 +150,12 @@ function Bullet (cx, cy){
     var myLeft = this.cx;
     var myRight = this.cx + 36;
     var myTop = this.cy;
+    var myBottom = this.cy + 60;
     var otherLeft = otherObj.cx;
     var otherRight = otherObj.cx + otherObj.swidth;
     var otherBottom = otherObj.cy + otherObj.sheight;
-    if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom) {
+    var otherTop = otherObj.cy;
+    if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom && (myBottom > otherTop)) {
       var bulletIndex = bullets.indexOf(this);
       bullets.splice(invaderIndex, 1);
       var invaderIndex = invaders.indexOf(otherObj);
@@ -254,9 +235,6 @@ var drawSparks = function(x, y){
   sparks.push(new Spark(x-30, y, -13, 11));
   sparks.push(new Spark(x+30, y, -16, 18));
 }
-
-
-// function Bullet (x, y, width, height){
 
 function fire(){
   bullets.push(new Bullet(myArea.x, 690));
