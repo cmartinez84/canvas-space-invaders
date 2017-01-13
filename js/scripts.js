@@ -175,21 +175,21 @@ function Bullet (cx, cy){
     var otherRight = otherObj.cx + otherObj.swidth;
     var otherBottom = otherObj.cy + otherObj.sheight;
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom) {
-      var invaderIndex = invaders.indexOf(otherObj);
       var bulletIndex = bullets.indexOf(this);
       bullets.splice(invaderIndex, 1);
+      var invaderIndex = invaders.indexOf(otherObj);
       otherObj.sx = 356;
       otherObj.sx2 = 356;
       otherObj.sy = 626;
       otherObj.swidth = 100;
       otherObj.sheight = 77;
+      drawSparks(otherObj.cx, otherObj.cy);
       setTimeout(function(){
         invaders.splice(invaderIndex, 1);
       }, 300);
     }
   }
 }
-
 function updateMyArea(){
   myArea.frameNo ++;
   myArea.clear();
@@ -226,26 +226,33 @@ var drawHighScores = function(){
         });
     });
 }
+function Spark(cx, cy, speedX, speedY){
+  this.cx  = cx;
+  this.cy = cy;
+  this.gravity = .4;
+  this.speedX = speedX;
+  this.speedY = speedY;
+  this.update = function(){
+    var ctx = myArea.context;
+    ctx.fillStyle = "white";
+    this.speedY += this.gravity;
+    this.speedX *= .96;
+    this.cx += this.speedX;
+    this.cy += this.speedY;
+    ctx.fillRect(this.cx, this.cy, 10, 10);
+    console.log(sparks.length);
+  };
+}
 
-var drawSparks = function(x, y, speedX, speedY){
-  // if(speedY > 0){ speedY * 3};
-  randos[0] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[1] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[2] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[3] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[4] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[5] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[6] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[7] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[8] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[9] = 8-(Math.floor(Math.random() * 90))/10;
-  randos[10] = 8-(Math.floor(Math.random() * 90))/10;
-  randos.forEach(function(rando){
-    sparks.push(new Spark (x, y, 3, 3 , speedX + rando, speedY - ((rando*rando)/6)));
-    sparks.push(new Spark (x, y, 3, 3 , speedX - (rando/ (rando*rando)), speedY - ((rando)/6)));
-  });
-
-  // sparks.push(new Spark (x, y, 3, 3, speedX, speedY));
+var drawSparks = function(x, y){
+  sparks.push(new Spark(x,y, 10, 15));
+  sparks.push(new Spark(x,y, 12, 14));
+  sparks.push(new Spark(x,y, 15, 11));
+  sparks.push(new Spark(x,y, 18, 20));
+  sparks.push(new Spark(x-30, y, -10, 15));
+  sparks.push(new Spark(x+30, y, -5, 13));
+  sparks.push(new Spark(x-30, y, -13, 11));
+  sparks.push(new Spark(x+30, y, -16, 18));
 }
 
 
