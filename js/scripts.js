@@ -174,7 +174,9 @@ function Bullet (cx, cy){
     var otherRight = otherObj.cx + otherObj.swidth;
     var otherBottom = otherObj.cy + otherObj.sheight;
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom) {
-      console.log("hit!");
+      // bullets
+      // this.remove();
+      bullets = [];
     }
   }
 }
