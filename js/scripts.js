@@ -28,7 +28,7 @@ var myArea = {
       myArea.x = e.clientX - (myArea.canvas.offsetLeft - window.pageXOffset);
       myArea.y = e.clientY -(myArea.canvas.offsetTop - window.pageYOffset);
     });
-    this.canvas.onmousedown = function(){
+    document.onmousedown = function(){
       fire();
     };
 
@@ -140,7 +140,7 @@ function Bullet (cx, cy){
   this.update = function(){
     this.cy += this.speedY;
     //  reference :     ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
-    ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, 36, 60);
+    ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, 18, 30);
   },
   this.crashWith = function(otherObj){
     var myLeft = this.cx;
@@ -217,7 +217,6 @@ function Spark(cx, cy, speedX, speedY){
     this.cx += this.speedX;
     this.cy += this.speedY;
     ctx.fillRect(this.cx, this.cy, 10, 10);
-    console.log(sparks.length);
   };
 }
 
@@ -233,7 +232,16 @@ var drawSparks = function(x, y){
 }
 
 function fire(){
-  bullets.push(new Bullet(myArea.x +22, 690));
+  var fireX;
+  if(myArea.x < 10){
+    fireX =10;}
+  else if (myArea.x > 710){
+    fireX = 710;
+  }
+  else{
+    fireX = myArea.x;
+  }
+  bullets.push(new Bullet(fireX +30, 690));
 }
 
 myArea.start();

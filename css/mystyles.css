@@ -1,6 +1,9 @@
 canvas{
   border: 1px  solid #d3d3d3;
   background-color: black;
+  background: url('http://opengameart.org/sites/default/files/styles/watermarked/public/SpaceBackground1.png') center center no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 
 }
 body{
