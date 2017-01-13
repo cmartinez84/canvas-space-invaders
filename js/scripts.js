@@ -2,7 +2,7 @@ var boardScore;
 var ball;
 var ping;
 var sparks = [];
-var ketchup;
+var myShip;
 var invaders = [];
 var bullets = [];
 var randos = [];
@@ -36,7 +36,7 @@ var myArea = {
     // my compnent constructor syntax
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
-    ketchup = new Component(10, 10, 300, 10, "ketchup", 'img/ketchup.png');
+    myShip = new Component(10, 200, 600, 10, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 77, 46);
     invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 112, 83));
     invaders.push (new Component(10, 10, 150, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 83, 86));
     invaders.push (new Component(10, 10, 300, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 80, 82));
@@ -64,34 +64,30 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   this.soffset = soffset;
   this.dwidth = dwidth;
   this.dheight = dheight;
-  // this.speedXpos = 1;
-  // this.speedXneg = -1;
   this.speedX = 0;
   this.speedY = 0;
+  this.sxRef = sx;
+  this.sx = sx;
+  this.sx2 = sx +soffset;
+  this.sy = sy;
+  this.swidth = swidth;
+  this.sheight = sheight;
   ctx = myArea.context;
-  if(this.type === "invader"){
-    this.sxRef = sx;
-    this.sx = sx;
-    this.sx2 = sx +soffset;
-    this.sy = sy;
-    this.swidth = swidth;
-    this.sheight = sheight;
-  }
   this.update = function(){
     if(myArea.frameNo % 40 === 0){
       this.newPos();
       this.rotateCounter ++;
     }
     ctx = myArea.context;
-    if(this.type === "ketchup"){
+    if(this.type === "myShip"){
       if(myArea.x <10){
-        ctx.drawImage(this.image, 10, 690);
+        ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, 10, 726, this.dwidth, this.dheight);
       }
-      else if (myArea.x > 754){
-        ctx.drawImage(this.image, 754, 690);
+      else if (myArea.x > 713){
+        ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, 713, 726, this.dwidth, this.dheight);
       }
       else{
-        ctx.drawImage(this.image, myArea.x, 690);
+        ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, myArea.x , 726, this.dwidth, this.dheight);
       }
     }
     else if (this.type === "invader"){
@@ -174,7 +170,7 @@ function Bullet (cx, cy){
 function updateMyArea(){
   myArea.frameNo ++;
   myArea.clear();
-  ketchup.update();
+  myShip.update();
   invaders.forEach(function(invader){
     invader.update();
   })
@@ -237,7 +233,7 @@ var drawSparks = function(x, y){
 }
 
 function fire(){
-  bullets.push(new Bullet(myArea.x, 690));
+  bullets.push(new Bullet(myArea.x +22, 690));
 }
 
 myArea.start();
