@@ -7,11 +7,11 @@ var invaders = [];
 var bullets = [];
 var randos = [];
 
-var scoresRef = firebase.database().ref('scores');
-function HighScore(person, finalScore){
-  this.person = person;
-  this.finalScore = finalScore;
-}
+// var scoresRef = firebase.database().ref('scores');
+// function HighScore(person, finalScore){
+//   this.person = person;
+//   this.finalScore = finalScore;
+// }
 
 var myArea = {
   canvas : document.createElement("canvas"),
@@ -132,6 +132,8 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
 function Bullet (cx, cy){
   this.cx = cx;
   this.cy = cy;
+  this.dwidth = 18;
+  this.dheight = 30;
   this.image = new Image();
   this.image.src = "img/invaders.gif";
   // this.speedX = speedX;
@@ -140,13 +142,13 @@ function Bullet (cx, cy){
   this.update = function(){
     this.cy += this.speedY;
     //  reference :     ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
-    ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, 18, 30);
+    ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, this.dwidth, this.dheight);
   },
   this.crashWith = function(otherObj){
     var myLeft = this.cx;
-    var myRight = this.cx + 36;
+    var myRight = this.cx + this.dwidth;
     var myTop = this.cy;
-    var myBottom = this.cy + 60;
+    var myBottom = this.cy + this.dheight;
     var otherLeft = otherObj.cx;
     var otherRight = otherObj.cx + otherObj.dwidth;
     var otherBottom = otherObj.cy + otherObj.dheight;
