@@ -37,17 +37,25 @@ var myArea = {
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
     myShip = new Component(10, 200, 600, 10, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
-    // invaders.push (new Component(10, 10, 10, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 54, 40));
-    // invaders.push (new Component(10, 10, 70, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 39, 40));
-    invaders.push (new Component(10, 10, 40, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 125, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 210, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 295, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 380, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 465, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 550, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 635, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
-    invaders.push (new Component(10, 10, 720, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+
+    //row7
+    for (var i = 0; i < 9; i++) {
+      invaders.push (new Component(10, 10, 40 + (i*85), 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 40, 34));
+    }
+    //row2-6
+    for (var y = 0; y < 5; y++) {
+      for (var i = 0; i < 9; i++) {
+        invaders.push (new Component(10, 10, 40 +(i *85 ), 50 + (y * 50) , "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 39, 40));
+      }
+    }
+
+
+    //row 1 (bottom)
+    for (var i = 0; i < 9; i++) {
+      invaders.push (new Component(10, 10, 40 + (i*85), 300, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    }
+
+
 
 
     // boardScore = new Component(10, 10, 300, 10, "text", null);
