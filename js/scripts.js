@@ -193,20 +193,6 @@ function updateMyArea(){
   }
 }
 
-var playAgain = function(){
-    $("#playAgain").hide();
-    myArea.frameNo = 0;
-    myArea.start();
-}
-
-var drawHighScores = function(){
-  $("#highScores").empty();
-    scoresRef.orderByChild('finalScore').limitToLast(5).on('value', function(snap){
-        snap.forEach(function(e){
-            $("#highScores").prepend("<li><span>"+e.val().person +" "+ e.val().finalScore +"</span>");
-        });
-    });
-}
 function Spark(cx, cy, speedX, speedY){
   this.cx  = cx;
   this.cy = cy;
@@ -215,7 +201,8 @@ function Spark(cx, cy, speedX, speedY){
   this.speedY = speedY;
   this.update = function(){
     var ctx = myArea.context;
-    ctx.fillStyle = "white";
+    ctx.shadowBlur = 5;
+    ctx.shadowColor = "yellow"
     this.speedY += this.gravity;
     this.speedX *= .96;
     this.cx += this.speedX;
