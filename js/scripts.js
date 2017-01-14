@@ -20,7 +20,16 @@ var myArea = {
       myArea.y = e.clientY -(myArea.canvas.offsetTop - window.pageYOffset);
     });
     document.onmousedown = function(){
-      fire();
+      var fireX;
+      if(myArea.x < 10){
+        fireX =10;}
+      else if (myArea.x > 710){
+        fireX = 710;
+      }
+      else{
+        fireX = myArea.x;
+      }
+      fire(fireX);
     };
 
     // mySound = new Audio("sounds/ping.wav");
@@ -131,7 +140,7 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   }
 
 }
-function Bullet (cx, cy){
+function Bullet (cx, cy, speedY){
   this.cx = cx;
   this.cy = cy;
   this.dwidth = 18;
@@ -139,7 +148,7 @@ function Bullet (cx, cy){
   this.image = new Image();
   this.image.src = "img/invaders.gif";
   // this.speedX = speedX;
-  this.speedY = -10;
+  this.speedY = speedY;
   ctx = myArea.context;
   this.update = function(){
     this.cy += this.speedY;
@@ -222,17 +231,9 @@ var drawSparks = function(x, y){
   sparks.push(new Spark(x+30, y, -16, 18));
 }
 
-function fire(){
-  var fireX;
-  if(myArea.x < 10){
-    fireX =10;}
-  else if (myArea.x > 710){
-    fireX = 710;
-  }
-  else{
-    fireX = myArea.x;
-  }
-  bullets.push(new Bullet(fireX +15, 690));
+function fire(fireX){
+
+  bullets.push(new Bullet(fireX +15, 690, -10));
 }
 
 myArea.start();
