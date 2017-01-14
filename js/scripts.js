@@ -37,9 +37,19 @@ var myArea = {
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
     myShip = new Component(10, 200, 600, 10, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
-    invaders.push (new Component(10, 10, 10, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 54, 40));
-    invaders.push (new Component(10, 10, 70, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 39, 40));
-    invaders.push (new Component(10, 10, 130, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    // invaders.push (new Component(10, 10, 10, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 54, 40));
+    // invaders.push (new Component(10, 10, 70, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 39, 40));
+    invaders.push (new Component(10, 10, 30, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 120, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 200, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 280, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 360, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 440, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 520, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 600, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 680, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+    invaders.push (new Component(10, 10, 760, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
+
     // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
   clear : function(){
@@ -154,8 +164,9 @@ function Bullet (cx, cy){
     var otherBottom = otherObj.cy + otherObj.dheight;
     var otherTop = otherObj.cy;
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom && (myBottom > otherTop)) {
+      // debugger;
       var bulletIndex = bullets.indexOf(this);
-      bullets.splice(invaderIndex, 1);
+      bullets.splice(bulletIndex, 1);
       var invaderIndex = invaders.indexOf(otherObj);
       otherObj.sx = 356;
       otherObj.sx2 = 356;
@@ -164,8 +175,9 @@ function Bullet (cx, cy){
       otherObj.sheight = 77;
       drawSparks(otherObj.cx, otherObj.cy);
       setTimeout(function(){
-        invaders.splice(invaderIndex, 1);
-      }, 300);
+        // invaders.splice(invaderIndex, 1);
+        invaders[invaderIndex] = null
+      }, 200);
     }
   }
 }
@@ -174,7 +186,7 @@ function updateMyArea(){
   myArea.clear();
   myShip.update();
   invaders.forEach(function(invader){
-    invader.update();
+    if(invader){invader.update();}
   })
   if(sparks.length >0){
     sparks.forEach(function(spark){
@@ -184,7 +196,7 @@ function updateMyArea(){
   if(bullets.length > 0){
     bullets.forEach(function(bullet){
       invaders.forEach(function(invader){
-        bullet.crashWith(invader);
+        if(invader){bullet.crashWith(invader);}
       });
       bullet.update();
     });
