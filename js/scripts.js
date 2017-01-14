@@ -1,17 +1,8 @@
-var boardScore;
-var ball;
-var ping;
+var boardScore, ball, ping, myShip;
 var sparks = [];
-var myShip;
 var invaders = [];
 var bullets = [];
 var randos = [];
-
-// var scoresRef = firebase.database().ref('scores');
-// function HighScore(person, finalScore){
-//   this.person = person;
-//   this.finalScore = finalScore;
-// }
 
 var myArea = {
   canvas : document.createElement("canvas"),
@@ -49,16 +40,10 @@ var myArea = {
       }
     }
 
-
     //row 1 (bottom)
     for (var i = 0; i < 9; i++) {
       invaders.push (new Component(10, 10, 40 + (i*85), 300, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
     }
-
-
-
-
-    // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
   clear : function(){
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -146,7 +131,6 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   }
 
 }
-//reserve for sparks when collision
 function Bullet (cx, cy){
   this.cx = cx;
   this.cy = cy;
@@ -172,7 +156,6 @@ function Bullet (cx, cy){
     var otherBottom = otherObj.cy + otherObj.dheight;
     var otherTop = otherObj.cy;
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom && (myBottom > otherTop)) {
-      // debugger;
       var bulletIndex = bullets.indexOf(this);
       bullets.splice(bulletIndex, 1);
       var invaderIndex = invaders.indexOf(otherObj);
@@ -183,7 +166,6 @@ function Bullet (cx, cy){
       otherObj.sheight = 77;
       drawSparks(otherObj.cx, otherObj.cy);
       setTimeout(function(){
-        // invaders.splice(invaderIndex, 1);
         invaders[invaderIndex] = null
       }, 200);
     }
@@ -267,4 +249,3 @@ function fire(){
 }
 
 myArea.start();
-// drawHighScores();
