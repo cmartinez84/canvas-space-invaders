@@ -36,10 +36,10 @@ var myArea = {
     // my compnent constructor syntax
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
-    myShip = new Component(10, 200, 600, 10, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 77, 46);
-    invaders.push (new Component(10, 10, 0, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 50, 37));
-    invaders.push (new Component(10, 10, 60, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 50, 52));
-    invaders.push (new Component(10, 10, 120, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 50, 51));
+    myShip = new Component(10, 200, 600, 10, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
+    invaders.push (new Component(10, 10, 10, 10, "invader", 'img/invaders.gif', 18, 13 , 112 , 83, 146, 54, 40));
+    invaders.push (new Component(10, 10, 70, 10, "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 39, 40));
+    invaders.push (new Component(10, 10, 130, 10, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
     // boardScore = new Component(10, 10, 300, 10, "text", null);
   },
   clear : function(){
@@ -241,7 +241,7 @@ function fire(){
   else{
     fireX = myArea.x;
   }
-  bullets.push(new Bullet(fireX +30, 690));
+  bullets.push(new Bullet(fireX +15, 690));
 }
 
 myArea.start();
