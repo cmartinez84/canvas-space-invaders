@@ -140,15 +140,15 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   }
 
 }
-function Bullet (cx, cy, speedY){
+function Bullet (cx, cy, speedY, target){
   this.cx = cx;
   this.cy = cy;
   this.dwidth = 18;
   this.dheight = 30;
   this.image = new Image();
   this.image.src = "img/invaders.gif";
-  // this.speedX = speedX;
   this.speedY = speedY;
+  this.target = target;
   ctx = myArea.context;
   this.update = function(){
     this.cy += this.speedY;
@@ -184,6 +184,7 @@ function updateMyArea(){
   myArea.frameNo ++;
   myArea.clear();
   myShip.update();
+  alienFire();
   invaders.forEach(function(invader){
     if(invader){invader.update();}
   })
@@ -194,9 +195,14 @@ function updateMyArea(){
   }
   if(bullets.length > 0){
     bullets.forEach(function(bullet){
-      invaders.forEach(function(invader){
-        if(invader){bullet.crashWith(invader);}
-      });
+      if(bullet.target === "invader"){
+        invaders.forEach(function(invader){
+          if(invader){bullet.crashWith(invader);}
+        });
+      }
+      else if(bullet.target === "myShip"){
+        bullet.crashWith(myShip);
+      }
       bullet.update();
     });
   }
@@ -232,8 +238,18 @@ var drawSparks = function(x, y){
 }
 
 function fire(fireX){
+  bullets.push(new Bullet(fireX +15, 690, -10, "invader"));
+}
 
-  bullets.push(new Bullet(fireX +15, 690, -10));
+function alienFire(){
+  if(myArea.frameNo % 100 === 0){
+    var rando = Math.floor(Math.random() * invaders.length);
+    var randoX = invaders[rando].cx +20;
+    var randoY = invaders[rando].cy;
+    console.log(randoX +  " " + randoY + " "+ rando);
+    bullets.push(new Bullet(randoX, randoY, 10 , "myShip"));
+  }
+  console.log("hi");
 }
 
 myArea.start();
