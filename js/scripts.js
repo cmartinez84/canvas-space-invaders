@@ -215,9 +215,14 @@ function Spark(cx, cy, speedX, speedY){
   this.speedX = speedX;
   this.speedY = speedY;
   this.update = function(){
+    if(this.cy > 1000){
+      var sparkIndex = sparks.indexOf(this);
+      sparks.splice(sparkIndex,1)
+    }
     var ctx = myArea.context;
     ctx.shadowBlur = 5;
-    ctx.shadowColor = "yellow"
+    ctx.fillStyle = "white";
+    // ctx.shadowColor = "yellow"
     this.speedY += this.gravity;
     this.speedX *= .96;
     this.cx += this.speedX;
@@ -246,10 +251,8 @@ function alienFire(){
     var rando = Math.floor(Math.random() * invaders.length);
     var randoX = invaders[rando].cx +20;
     var randoY = invaders[rando].cy;
-    console.log(randoX +  " " + randoY + " "+ rando);
     bullets.push(new Bullet(randoX, randoY, 10 , "myShip"));
   }
-  console.log("hi");
 }
 
 myArea.start();
