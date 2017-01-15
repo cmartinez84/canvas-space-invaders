@@ -1,4 +1,4 @@
-var boardScore, ball, ping, myShip;
+var lives, ball, ping, myShip;
 var sparks = [];
 var invaders = [];
 var bullets = [];
@@ -7,11 +7,13 @@ var randos = [];
 var myArea = {
   canvas : document.createElement("canvas"),
   start : function(){
+    this.lives = 3;
     this.canvas.width = 800;
     this.gameOver = false;
     this.canvas.height = 800;
     this.frameNo = 0;
     this.context = this.canvas.getContext('2d');
+    this.lives = 3;
     document.body.insertBefore(this.canvas, document.body.childNodes[2]);
     this.interval = setInterval(updateMyArea, 20);
     this.canvas.style.cursor = "none";
@@ -36,7 +38,8 @@ var myArea = {
     // my compnent constructor syntax
     // (width, height, cx, cy, type, source, sx, sy, swidth, sheight, soffset, dwidth, dheight){
 
-    myShip = new Component(10, 200, 600, 10, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
+    myShip = new Component(null, null, null, 726, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
+    lives = new Component(10, 200, 0, 10, "lives", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
 
     //row7
     for (var i = 0; i < 9; i++) {
@@ -48,7 +51,6 @@ var myArea = {
         invaders.push (new Component(10, 10, 40 +(i *85 ), 50 + (y * 50) , "invader", 'img/invaders.gif', 311, 13, 83, 86, 116 , 39, 40));
       }
     }
-
     //row 1 (bottom)
     for (var i = 0; i < 9; i++) {
       invaders.push (new Component(10, 10, 40 + (i*85), 300, "invader", 'img/invaders.gif', 236, 494, 80, 82, 111 , 39, 40));
@@ -86,23 +88,31 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   this.sheight = sheight;
   ctx = myArea.context;
   this.update = function(){
-    if(myArea.frameNo % 40 === 0){
-      this.newPos();
-      this.rotateCounter ++;
+    if(this.type === "lives"){
+      ctx.fillStyle = "white";
+      ctx.font = "30px Arial";
+      ctx.fillText(myArea.lives, 750, 30);
+      // ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, 10, 726, this.dwidth, this.dheight);
     }
-    ctx = myArea.context;
     if(this.type === "myShip"){
       if(myArea.x <10){
-        ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, 10, 726, this.dwidth, this.dheight);
+        this.cx = 10;
       }
       else if (myArea.x > 713){
-        ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, 713, 726, this.dwidth, this.dheight);
+        this.cx = 713;
       }
       else{
-        ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, myArea.x , 726, this.dwidth, this.dheight);
+        this.cx = myArea.x;
       }
+
+      ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
+
     }
     else if (this.type === "invader"){
+      if(myArea.frameNo % 40 === 0){
+        this.newPos();
+        this.rotateCounter ++;
+      }
       if(this.rotateCounter % 2 === 0){
         this.sxRef = this.sx2;
       }
@@ -154,7 +164,6 @@ function Bullet (cx, cy, speedY, target){
     if(this.cy > 800 || this.cy < 0){
       var bulletIndex = bullets.indexOf(this);
       bullets.splice(bulletIndex, 1);
-      console.log(bullets.length);
     }
     this.cy += this.speedY;
     //  reference :     ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
@@ -172,16 +181,28 @@ function Bullet (cx, cy, speedY, target){
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom && (myBottom > otherTop)) {
       var bulletIndex = bullets.indexOf(this);
       bullets.splice(bulletIndex, 1);
-      var invaderIndex = invaders.indexOf(otherObj);
-      otherObj.sx = 356;
-      otherObj.sx2 = 356;
-      otherObj.sy = 626;
-      otherObj.swidth = 100;
-      otherObj.sheight = 77;
-      drawSparks(otherObj.cx, otherObj.cy);
-      setTimeout(function(){
-        invaders[invaderIndex] = null
-      }, 200);
+      if(this.target ==="invader"){
+        var invaderIndex = invaders.indexOf(otherObj);
+        otherObj.sx = 356;
+        otherObj.sx2 = 356;
+        otherObj.sy = 626;
+        otherObj.swidth = 100;
+        otherObj.sheight = 77;
+        drawSparks(otherObj.cx, otherObj.cy);
+        setTimeout(function(){
+          invaders[invaderIndex] = null
+        }, 200);
+      }
+      if(this.target === "myShip"){
+        myArea.lives --;
+        otherObj.sx =240;
+        otherObj.sy = 632;
+        otherObj.swidth = 108;
+        otherObj.sheight = 63;
+        setTimeout(function(){
+            myShip = new Component(null, null, null, 726, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
+        }, 500);
+      }
     }
   }
 }
@@ -189,6 +210,7 @@ function updateMyArea(){
   myArea.frameNo ++;
   myArea.clear();
   myShip.update();
+  lives.update();
   alienFire();
   invaders.forEach(function(invader){
     if(invader){invader.update();}
