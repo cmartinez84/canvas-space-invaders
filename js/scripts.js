@@ -151,6 +151,11 @@ function Bullet (cx, cy, speedY, target){
   this.target = target;
   ctx = myArea.context;
   this.update = function(){
+    if(this.cy > 800 || this.cy < 0){
+      var bulletIndex = bullets.indexOf(this);
+      bullets.splice(bulletIndex, 1);
+      console.log(bullets.length);
+    }
     this.cy += this.speedY;
     //  reference :     ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
     ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, this.dwidth, this.dheight);
