@@ -3,11 +3,16 @@ var sparks = [];
 var invaders = [];
 var bullets = [];
 var randos = [];
+var blip, blip1, blip2, blip3, blip4;
 
 
 var myArea = {
   canvas : document.createElement("canvas"),
   start : function(){
+    blip = new Audio("sounds/blip.wav");
+    blip2 = new Audio("sounds/blip2.wav");
+    blip3 = new Audio("sounds/blip3.wav");
+    blip4 = new Audio("sounds/blip4.wav");
     this.lives = 3;
     this.canvas.width = 800;
     this.gameOver = false;
@@ -127,23 +132,27 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   },
   this.newPos = function(){
     if(this.rotateCounter2  === 4){
+      blip.play();
       this.speedX = 0;
       this.speedY =.3;
       this.rotateCounter2 --;
     }
     else if(this.rotateCounter2 === 3){
+      blip2.play();
       this.speedX = .3;
       this.speedY =0;
       this.rotateCounter2 --;
 
     }
     else if( this.rotateCounter2  === 2){
+      blip3.play();
       this.speedX = 0;
       this.speedY = .3;
       this.rotateCounter2 --;
 
     }
     else{
+      blip4.play();
       this.speedX = -.3;
       this.speedY = 0;
       this.rotateCounter2 = 4;
