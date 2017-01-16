@@ -46,6 +46,7 @@ var myArea = {
 
     myShip = new Component(null, null, null, 726, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
     lives = new Component(10, 200, 0, 10, "lives", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
+    invaders.push (new Component(500, 500, 0, 0, "ufo", 'img/invaders.gif', 17, 632 , 127 , 60, 0, 40, 34));
 
     //row7
     for (var i = 0; i < 9; i++) {
@@ -84,7 +85,7 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   this.soffset = soffset;
   this.dwidth = dwidth;
   this.dheight = dheight;
-  this.speedX = 0;
+  this.speedX = 20;
   this.speedY = 0;
   this.sxRef = sx;
   this.sx = sx;
@@ -115,7 +116,7 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
 
     }
     else if (this.type === "invader"){
-      if(myArea.frameNo % 40 === 0){
+      if(myArea.frameNo % 20 === 0 || myArea.frameNo === 1){
         this.newPos();
         this.rotateCounter ++;
       }
@@ -129,12 +130,20 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
       this.cy +=this.speedY;
       ctx.drawImage(this.image, this.sxRef, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
     }
+    else if (this.type ==="ufo"){
+        var rando = Math.floor(Math.random() * invaders.length);
+        this.cx += this.speedX;
+        if(this.cx > 750 || this.cx < 0 ){
+          this.speedX *= -1;
+        }
+        ctx.drawImage(this.image, this.sxRef, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
+    }
   },
   this.newPos = function(){
     if(this.rotateCounter2  === 4){
       blip.play();
       this.speedX = 0;
-      this.speedY =.3;
+      this.speedY =1;
       this.rotateCounter2 --;
     }
     else if(this.rotateCounter2 === 3){
@@ -147,7 +156,7 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
     else if( this.rotateCounter2  === 2){
       blip3.play();
       this.speedX = 0;
-      this.speedY = .3;
+      this.speedY = 1;
       this.rotateCounter2 --;
 
     }
