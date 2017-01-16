@@ -4,6 +4,7 @@ var invaders = [];
 var bullets = [];
 var randos = [];
 
+
 var myArea = {
   canvas : document.createElement("canvas"),
   start : function(){
@@ -181,6 +182,8 @@ function Bullet (cx, cy, speedY, target){
     if( myLeft < otherRight && myRight > otherLeft && myTop < otherBottom && (myBottom > otherTop)) {
       var bulletIndex = bullets.indexOf(this);
       bullets.splice(bulletIndex, 1);
+      var explode = new Audio("sounds/explode.wav");
+      explode.play();
       if(this.target ==="invader"){
         var invaderIndex = invaders.indexOf(otherObj);
         otherObj.sx = 356;
@@ -270,6 +273,8 @@ var drawSparks = function(x, y){
 }
 
 function fire(fireX){
+  var shoot = new Audio("sounds/shoot.wav");
+  shoot.play();
   bullets.push(new Bullet(fireX +15, 690, -10, "invader"));
 }
 
