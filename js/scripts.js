@@ -70,26 +70,31 @@ var myArea = {
     clearInterval(this.interval);
   },
   makeUfo : function(){
-    var newUfo = new Component(500, 500, 0, 0, "ufo", 'img/invaders.gif', 17, 632 , 127 , 60, 0, 40, 34);
-    invaders.push (newUfo);
-    setTimeout(function(){
-      newUfo.speedX = 0;
-      var laser = new Bullet (newUfo.cx + 15, newUfo.cy + 23, 30, "myShip", "laser");
-      myArea.laserSound.loop = true;
-      myArea.laserSound.play();
-      bullets.push(laser);
+    var rando = Math.floor(Math.random() * 2000);
+    var randocx = Math.floor(Math.random() *700);
+    console.log("hi");
+    if(this.frameNo % 300 ===0){
+      var newUfo = new Component(500, 500, 0 +randocx, 0, "ufo", 'img/invaders.gif', 17, 632 , 127 , 60, 0, 40, 34);
+      invaders.push (newUfo);
       setTimeout(function(){
-        laser.speedY = -30;
+        newUfo.speedX = 0;
+        var laser = new Bullet (newUfo.cx + 15, newUfo.cy + 23, 30, "myShip", "laser");
+        myArea.laserSound.loop = true;
+        myArea.laserSound.play();
+        bullets.push(laser);
         setTimeout(function(){
-          var ufoIndex = invaders.indexOf(this);
-          var laserIndex = bullets.indexOf(laser);
-          bullets.splice(laserIndex, 1);
-          invaders.splice(ufoIndex, 1);
-          myArea.laserSound.pause();
-          myArea.laserSound.currentTime = 0;
-        }, 1000);
-      }, 1000)
-    }, 100);
+          laser.speedY = -30;
+          setTimeout(function(){
+            var ufoIndex = invaders.indexOf(this);
+            var laserIndex = bullets.indexOf(laser);
+            bullets.splice(laserIndex, 1);
+            invaders.splice(ufoIndex, 1);
+            myArea.laserSound.pause();
+            myArea.laserSound.currentTime = 0;
+          }, 1000);
+        }, 1000)
+      }, 2000 +rando);
+    }
   }
 }
 
@@ -268,10 +273,13 @@ function Bullet (cx, cy, speedY, target, type){
 }
 function updateMyArea(){
   myArea.frameNo ++;
+
   myArea.clear();
   myShip.update();
   lives.update();
   alienFire();
+  myArea.makeUfo();
+
   invaders.forEach(function(invader){
     if(invader){invader.update();}
   })
@@ -345,4 +353,3 @@ function alienFire(){
 }
 
 myArea.start();
-myArea.makeUfo();
