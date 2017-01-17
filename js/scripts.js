@@ -75,6 +75,10 @@ var myArea = {
       newUfo.speedX = 0;
       var laser = new Bullet (newUfo.cx + 15, newUfo.cy + 23, 30, "myShip", "laser");
       bullets.push(laser);
+      setTimeout(function(){
+        laser.speedY = -30;
+        // laser.target = "invader";
+      }, 1000)
     }, 100);
   }
 }
@@ -201,7 +205,10 @@ function Bullet (cx, cy, speedY, target, type){
     else if (this.type === "laser"){
       ctx = myArea.context;
       ctx.fillStyle = "yellow";
-      ctx.shadowBlur = 10;
+      if(this.dheight < this.cy){
+        this.speedY = 0;
+        this.dheight = 0;
+      }
       this.dheight += this.speedY;
       ctx.fillRect(this.cx, this.cy, 10, this.dheight);
     }
