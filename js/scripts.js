@@ -46,7 +46,6 @@ var myArea = {
 
     myShip = new Component(null, null, null, 726, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
     lives = new Component(10, 200, 0, 10, "lives", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
-    invaders.push (new Component(500, 500, 0, 0, "ufo", 'img/invaders.gif', 17, 632 , 127 , 60, 0, 40, 34));
 
     //row7
     for (var i = 0; i < 9; i++) {
@@ -68,6 +67,13 @@ var myArea = {
   },
   stop : function(){
     clearInterval(this.interval);
+  },
+  makeUfo : function(){
+    var newUfo = new Component(500, 500, 0, 0, "ufo", 'img/invaders.gif', 17, 632 , 127 , 60, 0, 40, 34);
+    invaders.push (newUfo);
+    setTimeout(function(){
+      newUfo.speedX = 0;
+    }, 2000);
   }
 }
 
@@ -306,3 +312,4 @@ function alienFire(){
 }
 
 myArea.start();
+myArea.makeUfo();
