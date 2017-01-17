@@ -13,6 +13,7 @@ var myArea = {
     blip2 = new Audio("sounds/blip2.wav");
     blip3 = new Audio("sounds/blip3.wav");
     blip4 = new Audio("sounds/blip4.wav");
+    this.laserSound = new Audio("sounds/laser.wav");
     this.lives = 3;
     this.canvas.width = 800;
     this.gameOver = false;
@@ -74,10 +75,19 @@ var myArea = {
     setTimeout(function(){
       newUfo.speedX = 0;
       var laser = new Bullet (newUfo.cx + 15, newUfo.cy + 23, 30, "myShip", "laser");
+      myArea.laserSound.loop = true;
+      myArea.laserSound.play();
       bullets.push(laser);
       setTimeout(function(){
         laser.speedY = -30;
-        // laser.target = "invader";
+        setTimeout(function(){
+          var ufoIndex = invaders.indexOf(this);
+          var laserIndex = bullets.indexOf(laser);
+          bullets.splice(laserIndex, 1);
+          invaders.splice(ufoIndex, 1);
+          myArea.laserSound.pause();
+          myArea.laserSound.currentTime = 0;
+        }, 1000);
       }, 1000)
     }, 100);
   }
@@ -248,6 +258,10 @@ function Bullet (cx, cy, speedY, target, type){
         setTimeout(function(){
             myShip = new Component(null, null, null, 726, "myShip", 'img/invaders.gif', 147, 631, 77, 46, null, 50, 30);
         }, 500);
+        if(this.type === "laser"){
+          myArea.laserSound.pause();
+          myArea.laserSound.currentTime = 0;
+        }
       }
     }
   }
