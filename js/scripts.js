@@ -73,7 +73,9 @@ var myArea = {
     invaders.push (newUfo);
     setTimeout(function(){
       newUfo.speedX = 0;
-    }, 2000);
+      var laser = new Bullet (newUfo.cx + 15, newUfo.cy + 23, 30, "myShip", "laser");
+      bullets.push(laser);
+    }, 100);
   }
 }
 
@@ -175,7 +177,8 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   }
 
 }
-function Bullet (cx, cy, speedY, target){
+function Bullet (cx, cy, speedY, target, type){
+  this.type = type;
   this.cx = cx;
   this.cy = cy;
   this.dwidth = 18;
@@ -186,13 +189,22 @@ function Bullet (cx, cy, speedY, target){
   this.target = target;
   ctx = myArea.context;
   this.update = function(){
-    if(this.cy > 800 || this.cy < 0){
-      var bulletIndex = bullets.indexOf(this);
-      bullets.splice(bulletIndex, 1);
+    if(this.type === "bullet"){
+      if(this.cy > 800 || this.cy < 0){
+        var bulletIndex = bullets.indexOf(this);
+        bullets.splice(bulletIndex, 1);
+      }
+      this.cy += this.speedY;
+      //  reference :     ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
+      ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, this.dwidth, this.dheight);
     }
-    this.cy += this.speedY;
-    //  reference :     ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
-    ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, this.dwidth, this.dheight);
+    else if (this.type === "laser"){
+      ctx = myArea.context;
+      ctx.fillStyle = "yellow";
+      ctx.shadowBlur = 10;
+      this.dheight += this.speedY;
+      ctx.fillRect(this.cx, this.cy, 10, this.dheight);
+    }
   },
   this.crashWith = function(otherObj){
     var myLeft = this.cx;
@@ -299,7 +311,7 @@ var drawSparks = function(x, y){
 function fire(fireX){
   var shoot = new Audio("sounds/shoot.wav");
   shoot.play();
-  bullets.push(new Bullet(fireX +15, 690, -10, "invader"));
+  bullets.push(new Bullet(fireX +15, 690, -10, "invader", "bullet"));
 }
 
 function alienFire(){
@@ -307,7 +319,7 @@ function alienFire(){
     var rando = Math.floor(Math.random() * invaders.length);
     var randoX = invaders[rando].cx +20;
     var randoY = invaders[rando].cy;
-    bullets.push(new Bullet(randoX, randoY, 10 , "myShip"));
+    bullets.push(new Bullet(randoX, randoY, 10 , "myShip", "bullet"));
   }
 }
 
