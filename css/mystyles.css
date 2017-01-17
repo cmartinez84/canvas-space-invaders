@@ -1,13 +1,17 @@
 canvas{
+  margin-top: 40px;
   border: 1px  solid #d3d3d3;
   background-color: black;
   background: url('http://opengameart.org/sites/default/files/styles/watermarked/public/SpaceBackground1.png') center center no-repeat;
   background-attachment: fixed;
   background-size: cover;
-
+  border: none;
 }
 body{
   text-align: center;
+  background: url('../img/invadersbackground.gif') center bottom no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 #highScores{
   text-align: left;
@@ -28,3 +32,8 @@ body{
   top: 0;
   float: right;
 }
+/*#logo{
+  position: fixed;
+  left: 40px;
+  top: 40px;
+}*/

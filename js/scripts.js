@@ -7,7 +7,7 @@ var blip, blip1, blip2, blip3, blip4;
 
 
 var myArea = {
-  canvas : document.createElement("canvas"),
+  canvas : document.getElementById("canvas"),
   start : function(){
     blip = new Audio("sounds/blip.wav");
     blip2 = new Audio("sounds/blip2.wav");
@@ -15,13 +15,13 @@ var myArea = {
     blip4 = new Audio("sounds/blip4.wav");
     this.laserSound = new Audio("sounds/laser.wav");
     this.lives = 3;
-    this.canvas.width = 800;
+    // this.canvas.width = 800;
     this.gameOver = false;
-    this.canvas.height = 800;
+    // this.canvas.height = 800;
     this.frameNo = 0;
     this.context = this.canvas.getContext('2d');
     this.lives = 3;
-    document.body.insertBefore(this.canvas, document.body.childNodes[2]);
+    // document.body.insertBefore(this.canvas, document.body.childNodes[2]);
     this.interval = setInterval(updateMyArea, 20);
     this.canvas.style.cursor = "none";
     window.addEventListener('mousemove', function(e){
@@ -39,6 +39,7 @@ var myArea = {
         fireX = myArea.x;
       }
       fire(fireX);
+      return false;
     };
 
     // mySound = new Audio("sounds/ping.wav");
@@ -73,7 +74,7 @@ var myArea = {
     var rando = Math.floor(Math.random() * 2000);
     var randocx = Math.floor(Math.random() *700);
     console.log("hi");
-    if(this.frameNo % 300 ===0){
+    if(this.frameNo % 400 ===0){
       var newUfo = new Component(500, 500, 0 +randocx, 0, "ufo", 'img/invaders.gif', 17, 632 , 127 , 60, 0, 40, 34);
       invaders.push (newUfo);
       setTimeout(function(){
@@ -220,6 +221,8 @@ function Bullet (cx, cy, speedY, target, type){
     else if (this.type === "laser"){
       ctx = myArea.context;
       ctx.fillStyle = "yellow";
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = "red";
       if(this.dheight < this.cy){
         this.speedY = 0;
         this.dheight = 0;
