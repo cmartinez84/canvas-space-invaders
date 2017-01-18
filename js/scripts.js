@@ -22,6 +22,11 @@ var myArea = {
     this.context = this.canvas.getContext('2d');
     this.context2 = this.canvas.getContext('2d');
     this.lives = 3;
+    this.gameSpeed = 40;
+    this.gameSpeedX  = .3;
+    this.gameSpeedY = .1;
+    this.ufoInterval = 400;
+    this.invaders = 63;
     // document.body.insertBefore(this.canvas, document.body.childNodes[2]);
     this.interval = setInterval(updateMyArea, 20);
     this.canvas.style.cursor = "none";
@@ -72,10 +77,9 @@ var myArea = {
     clearInterval(this.interval);
   },
   makeUfo : function(){
-    var rando = Math.floor(Math.random() * 2000);
-    var randocx = Math.floor(Math.random() *700);
-    console.log("hi");
-    if(this.frameNo % 400 ===0){
+    if(this.frameNo % this.ufoInterval ===0){
+      var rando = Math.floor(Math.random() * 2000);
+      var randocx = Math.floor(Math.random() *700);
       var newUfo = new Component(500, 500, 0 +randocx, 0, "ufo", 'img/invaders.gif', 17, 632 , 127 , 60, 0, 40, 34);
       invaders.push (newUfo);
       setTimeout(function(){
@@ -145,7 +149,7 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
 
     }
     else if (this.type === "invader"){
-      if(myArea.frameNo % 20 === 0 || myArea.frameNo === 1){
+      if(myArea.frameNo % myArea.gameSpeed === 0 || myArea.frameNo === 1){
         this.newPos();
         this.rotateCounter ++;
       }
@@ -172,12 +176,12 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
     if(this.rotateCounter2  === 4){
       blip.play();
       this.speedX = 0;
-      this.speedY =1;
+      this.speedY = myArea.gameSpeedY;
       this.rotateCounter2 --;
     }
     else if(this.rotateCounter2 === 3){
       blip2.play();
-      this.speedX = .3;
+      this.speedX = myArea.gameSpeedX;
       this.speedY =0;
       this.rotateCounter2 --;
 
@@ -185,13 +189,13 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
     else if( this.rotateCounter2  === 2){
       blip3.play();
       this.speedX = 0;
-      this.speedY = 1;
+      this.speedY = myArea.gameSpeedY;
       this.rotateCounter2 --;
 
     }
     else{
       blip4.play();
-      this.speedX = -.3;
+      this.speedX = -1 * myArea.gameSpeedX;
       this.speedY = 0;
       this.rotateCounter2 = 4;
     }
@@ -254,8 +258,9 @@ function Bullet (cx, cy, speedY, target, type){
         otherObj.swidth = 100;
         otherObj.sheight = 77;
         drawSparks(otherObj.cx, otherObj.cy);
+        myArea.invaders --;
         setTimeout(function(){
-          invaders[invaderIndex] = null
+          invaders[invaderIndex] = null;
         }, 200);
       }
       if(this.target === "myShip"){
@@ -277,12 +282,12 @@ function Bullet (cx, cy, speedY, target, type){
 }
 function updateMyArea(){
   myArea.frameNo ++;
-
   myArea.clear();
   myShip.update();
   lives.update();
   alienFire();
   myArea.makeUfo();
+  speedUp();
 
   invaders.forEach(function(invader){
     if(invader){invader.update();}
@@ -353,6 +358,22 @@ function alienFire(){
     var randoX = invaders[rando].cx +20;
     var randoY = invaders[rando].cy;
     bullets.push(new Bullet(randoX, randoY, 10 , "myShip", "bullet"));
+  }
+}
+function speedUp(){
+  if(myArea.invaders < 3){
+    myArea.ufoInterval = 10;
+  }
+  else if(myArea.invaders < 15){
+    myArea.gameSpeed = 6;
+    myArea.gameSpeedY = .7;
+    myArea.ufoInterval = 300;
+  }
+  else if(myArea.invaders < 30){
+    myArea.gameSpeed = 10;
+    myArea.gameSpeedX = .6;
+    myArea.gameSpeedY = .4;
+    myArea.ufoInterval = 350;
   }
 }
 
