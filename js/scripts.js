@@ -20,6 +20,7 @@ var myArea = {
     // this.canvas.height = 800;
     this.frameNo = 0;
     this.context = this.canvas.getContext('2d');
+    this.context2 = this.canvas.getContext('2d');
     this.lives = 3;
     // document.body.insertBefore(this.canvas, document.body.childNodes[2]);
     this.interval = setInterval(updateMyArea, 20);
@@ -219,16 +220,16 @@ function Bullet (cx, cy, speedY, target, type){
       ctx.drawImage(this.image, 484, 390, 36, 60, this.cx, this.cy, this.dwidth, this.dheight);
     }
     else if (this.type === "laser"){
-      ctx = myArea.context;
-      ctx.fillStyle = "yellow";
-      ctx.shadowBlur = 20;
-      ctx.shadowColor = "red";
+      ctx2 = myArea.context2;
+      ctx2.fillStyle = "yellow";
+      ctx2.shadowBlur = 20;
+      ctx2.shadowColor = "red";
       if(this.dheight < this.cy){
         this.speedY = 0;
         this.dheight = 0;
       }
       this.dheight += this.speedY;
-      ctx.fillRect(this.cx, this.cy, 10, this.dheight);
+      ctx2.fillRect(this.cx, this.cy, 10, this.dheight);
     }
   },
   this.crashWith = function(otherObj){

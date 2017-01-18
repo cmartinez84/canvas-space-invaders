@@ -1,3 +1,10 @@
+body{
+  text-align: center;
+  background: url('../img/invadersbackground.gif') center bottom no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
 canvas{
   margin-top: 40px;
   border: 1px  solid #d3d3d3;
@@ -7,11 +14,9 @@ canvas{
   background-size: cover;
   border: none;
 }
-body{
-  text-align: center;
-  background: url('../img/invadersbackground.gif') center bottom no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+
+#logo{
+  margin-top: 10%;
 }
 #highScores{
   text-align: left;

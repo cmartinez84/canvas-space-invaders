@@ -7,7 +7,7 @@
 ## Description
 _Space invaders! with canvas and JS. Though there are a few tutorials out there to make exactly this project, I am not using them. I won't even look at them, so i can claim this 100% mine (except for the sprite sheet). Until further notice this is a work in progress and may not be fully playable, but should at least be animated and semi functional for previewing.
 
-https://cmartinez84.github.io/space-invaders
+https://cmartinez84.github.io/canvas-space-invaders
 
 ## Known Bugs
 _Do not use this in IE. Why are you using IE?
