@@ -31,18 +31,23 @@ var myArea = {
     this.interval = setInterval(updateMyArea, 20);
     this.canvas.style.cursor = "none";
     window.addEventListener('mousemove', function(e){
-      myArea.x = e.clientX - (myArea.canvas.offsetLeft - window.pageXOffset);
-      myArea.y = e.clientY -(myArea.canvas.offsetTop - window.pageYOffset);
+      // if (e.clientX >= myArea.canvas.getBoundingClientRect().left &&
+      //     e.clientX <= myArea.canvas.getBoundingClientRect().right){
+      //       myArea.x = e.clientX - myArea.canvas.getBoundingClientRect().left;
+      // }
+      //what is X coordinate of cursor.
+    myArea.x = e.clientX;
     });
     document.onmousedown = function(){
+      var canvasContext = myArea.x - myArea.canvas.getBoundingClientRect().left;
       var fireX;
-      if(myArea.x < 10){
+      if(canvasContext < 10){
         fireX =10;}
-      else if (myArea.x > 710){
-        fireX = 710;
+      else if (canvasContext > 735){
+        fireX = 735;
       }
       else{
-        fireX = myArea.x;
+        fireX = canvasContext;
       }
       fire(fireX);
       return false;
@@ -86,7 +91,7 @@ var myArea = {
         newUfo.speedX = 0;
         var laser = new Bullet (newUfo.cx + 15, newUfo.cy + 23, 30, "myShip", "laser");
         myArea.laserSound.loop = true;
-        myArea.laserSound.play();
+        // myArea.laserSound.play();
         bullets.push(laser);
         setTimeout(function(){
           laser.speedY = -30;
@@ -132,18 +137,25 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
       ctx.fillStyle = "white";
       ctx.font = "30px Arial";
       ctx.fillText(myArea.lives, 750, 30);
+
       // ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, 10, 726, this.dwidth, this.dheight);
     }
     if(this.type === "myShip"){
-      if(myArea.x <10){
-        this.cx = 10;
-      }
-      else if (myArea.x > 713){
-        this.cx = 713;
-      }
-      else{
-        this.cx = myArea.x;
-      }
+      var canvasLeft = myArea.canvas.getBoundingClientRect().left;
+      var canvasRight = myArea.canvas.getBoundingClientRect().right;
+    // if (e.clientX >= myArea.canvas.getBoundingClientRect().left &&
+    //     e.clientX <= myArea.canvas.getBoundingClientRect().right){
+    //       myArea.x = e.clientX - myArea.canvas.getBoundingClientRect().left;
+    // }
+    if(myArea.x < canvasLeft +45){
+      this.cx = 10;
+    }
+    else if(myArea.x >= canvasRight - 65){
+      this.cx = 735;
+    }
+    else{
+      this.cx = myArea.x - canvasLeft;
+    }
 
       ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.cx, this.cy, this.dwidth, this.dheight);
 
@@ -174,27 +186,27 @@ function Component (width, height, cx, cy, type, source, sx, sy, swidth, sheight
   },
   this.newPos = function(){
     if(this.rotateCounter2  === 4){
-      blip.play();
+      // blip.play();
       this.speedX = 0;
       this.speedY = myArea.gameSpeedY;
       this.rotateCounter2 --;
     }
     else if(this.rotateCounter2 === 3){
-      blip2.play();
+      // blip2.play();
       this.speedX = myArea.gameSpeedX;
       this.speedY =0;
       this.rotateCounter2 --;
 
     }
     else if( this.rotateCounter2  === 2){
-      blip3.play();
+      // blip3.play();
       this.speedX = 0;
       this.speedY = myArea.gameSpeedY;
       this.rotateCounter2 --;
 
     }
     else{
-      blip4.play();
+      // blip4.play();
       this.speedX = -1 * myArea.gameSpeedX;
       this.speedY = 0;
       this.rotateCounter2 = 4;
@@ -348,7 +360,7 @@ var drawSparks = function(x, y){
 
 function fire(fireX){
   var shoot = new Audio("sounds/shoot.wav");
-  shoot.play();
+  // shoot.play();
   bullets.push(new Bullet(fireX +15, 690, -10, "invader", "bullet"));
 }
 
